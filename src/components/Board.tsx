@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import Node from './Node';
-import { NodeT, Coords } from './../model';
+import { BoardNode, Coords, NodeType } from './../model';
 
 type Props = {
-  nodeSelectType: string;
-  nodes: NodeT[][];
-  setNodes: React.Dispatch<React.SetStateAction<NodeT[][]>>;
+  nodeSelectType: NodeType;
+  nodes: BoardNode[][];
+  setNodes: React.Dispatch<React.SetStateAction<BoardNode[][]>>;
   startCoords: Coords;
   setStartCoords: React.Dispatch<React.SetStateAction<Coords>>;
   endCoords: Coords;
   setEndCoords: React.Dispatch<React.SetStateAction<Coords>>;
+  holding: Boolean;
+  setHolding: React.Dispatch<React.SetStateAction<Boolean>>;
 };
 
 const Board: React.FC<Props> = ({
@@ -20,11 +22,11 @@ const Board: React.FC<Props> = ({
   setStartCoords,
   endCoords,
   setEndCoords,
+  holding,
+  setHolding,
 }) => {
-  const [holding, setHolding] = useState<Boolean>(false);
-
   return (
-    <div className="bg-[#0B0B45] col-span-4 flex flex-col">
+    <div className="col-span-4 flex flex-col">
       {nodes.map((row, y) => {
         return (
           <div key={y} className="flex">
