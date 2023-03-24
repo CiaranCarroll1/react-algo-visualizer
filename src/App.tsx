@@ -71,7 +71,7 @@ function App() {
       </div>
 
       {/* Main Panel */}
-      <div className="grid grid-cols-5">
+      <div className="mx-1 grid grid-cols-5">
         {/* Board */}
 
         <Board
