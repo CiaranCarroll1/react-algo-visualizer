@@ -5,8 +5,8 @@ import { BoardNode, Pos, NodeType, Algorithm } from '../types';
 type Props = {
   nodeSelectType: NodeType;
   algorithm: Algorithm;
-  nodes: BoardNode[][];
-  setNodes: React.Dispatch<React.SetStateAction<BoardNode[][]>>;
+  grid: BoardNode[][];
+  setGrid: React.Dispatch<React.SetStateAction<BoardNode[][]>>;
   startPos: Pos;
   setStartPos: React.Dispatch<React.SetStateAction<Pos>>;
   endPos: Pos;
@@ -18,8 +18,8 @@ type Props = {
 const Board: React.FC<Props> = ({
   nodeSelectType,
   algorithm,
-  nodes,
-  setNodes,
+  grid,
+  setGrid,
   startPos,
   setStartPos,
   endPos,
@@ -29,7 +29,7 @@ const Board: React.FC<Props> = ({
 }) => {
   return (
     <div className="col-span-4 flex flex-col">
-      {nodes.map((row, y) => {
+      {grid.map((row, y) => {
         return (
           <div key={y} className="flex">
             {row.map((node, x) => {
@@ -38,8 +38,8 @@ const Board: React.FC<Props> = ({
                   key={x + y}
                   nodeSelectType={nodeSelectType}
                   node={node}
-                  nodes={nodes}
-                  setNodes={setNodes}
+                  grid={grid}
+                  setGrid={setGrid}
                   startPos={startPos}
                   setStartPos={setStartPos}
                   endPos={endPos}

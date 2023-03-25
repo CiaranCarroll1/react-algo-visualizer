@@ -4,8 +4,8 @@ import { BoardNode, Pos, NodeType } from '../types';
 type Props = {
   nodeSelectType: NodeType;
   node: BoardNode;
-  nodes: BoardNode[][];
-  setNodes: React.Dispatch<React.SetStateAction<BoardNode[][]>>;
+  grid: BoardNode[][];
+  setGrid: React.Dispatch<React.SetStateAction<BoardNode[][]>>;
   startPos: Pos;
   setStartPos: React.Dispatch<React.SetStateAction<Pos>>;
   endPos: Pos;
@@ -17,8 +17,8 @@ type Props = {
 const Node: React.FC<Props> = ({
   nodeSelectType,
   node,
-  nodes,
-  setNodes,
+  grid,
+  setGrid,
   startPos,
   setStartPos,
   endPos,
@@ -27,7 +27,7 @@ const Node: React.FC<Props> = ({
   setHolding,
 }: Props) => {
   const updateType = (): void => {
-    const newNodes = [...nodes];
+    const newNodes = [...grid];
 
     if (nodeSelectType === NodeType.Start) {
       if (startPos.x !== -1) {
@@ -43,7 +43,7 @@ const Node: React.FC<Props> = ({
     }
 
     newNodes[node.y][node.x].type = nodeSelectType;
-    setNodes(newNodes);
+    setGrid(newNodes);
   };
 
   const handleMouseDown = (e: React.MouseEvent): void => {
