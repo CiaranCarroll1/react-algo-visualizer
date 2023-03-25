@@ -16,3 +16,9 @@ export enum NodeType {
   Wall = 'wall',
   Visited = 'visited',
 }
+
+export enum Algorithm {
+  Brute = 'brute',
+  Dijkstra = 'dijkstra',
+  Astar = 'astar',
+}

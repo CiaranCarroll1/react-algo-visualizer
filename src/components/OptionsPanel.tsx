@@ -1,16 +1,22 @@
 import React from 'react';
-import { NodeType } from '../model';
+import { NodeType, Algorithm } from '../model';
 
 type Props = {
   nodeSelectType: NodeType;
   setNodeSelectType: React.Dispatch<React.SetStateAction<NodeType>>;
+  algorithm: Algorithm;
+  setAlgorithm: React.Dispatch<React.SetStateAction<Algorithm>>;
   resetAll: () => void;
+  start: () => void;
 };
 
 const OptionsPanel: React.FC<Props> = ({
   nodeSelectType,
   setNodeSelectType,
+  algorithm,
+  setAlgorithm,
   resetAll,
+  start,
 }: Props) => {
   const handleNodeTypeSelectionChanged = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -21,7 +27,7 @@ const OptionsPanel: React.FC<Props> = ({
   const handleAlgorithmSelectionChanged = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    // Set algorithm
+    setAlgorithm(event.currentTarget.value as Algorithm);
   };
 
   return (
@@ -67,9 +73,9 @@ const OptionsPanel: React.FC<Props> = ({
       <label>
         <input
           type="radio"
-          value="brute"
+          value={Algorithm.Brute}
           name="algorithm"
-          checked={true}
+          checked={algorithm === Algorithm.Brute}
           onChange={handleAlgorithmSelectionChanged}
         />{' '}
         Brute force
@@ -77,9 +83,9 @@ const OptionsPanel: React.FC<Props> = ({
       <label>
         <input
           type="radio"
-          value="dijkstra"
+          value={Algorithm.Dijkstra}
           name="algorithm"
-          checked={false}
+          checked={algorithm === Algorithm.Dijkstra}
           onChange={handleAlgorithmSelectionChanged}
         />{' '}
         Dijkstra
@@ -87,9 +93,9 @@ const OptionsPanel: React.FC<Props> = ({
       <label>
         <input
           type="radio"
-          value="astar"
+          value={Algorithm.Astar}
           name="algorithm"
-          checked={false}
+          checked={algorithm === Algorithm.Astar}
           onChange={handleAlgorithmSelectionChanged}
         />{' '}
         A*
@@ -98,6 +104,12 @@ const OptionsPanel: React.FC<Props> = ({
       {/* Seperator */}
       <hr className="border-gray-300 my-5"></hr>
 
+      <button
+        onClick={start}
+        className="p-1 border mb-5 text-[#0B0B45] bg-gray-300 border-gray-300 rounded"
+      >
+        Start
+      </button>
       <button
         onClick={resetAll}
         className="p-1 border text-[#0B0B45] bg-gray-300 border-gray-300 rounded"

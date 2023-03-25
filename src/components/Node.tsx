@@ -64,12 +64,6 @@ const Node: React.FC<Props> = ({
     }
   };
 
-  const handleMouseUp = (e: React.MouseEvent): void => {
-    if (nodeSelectType === NodeType.Wall && holding) {
-      setHolding(false);
-    }
-  };
-
   let bgColor = 'bg-white';
   if (node.type === NodeType.Start) {
     bgColor = 'bg-green-500';
@@ -86,7 +80,6 @@ const Node: React.FC<Props> = ({
       <div
         onMouseDown={handleMouseDown}
         onMouseOver={handleMouseOver}
-        onMouseUp={handleMouseUp}
         className={`w-7 h-7 ${bgColor} cursor-pointer`}
       ></div>
     </div>

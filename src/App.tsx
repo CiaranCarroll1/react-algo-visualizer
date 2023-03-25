@@ -3,7 +3,7 @@ import './App.css';
 import Board from './components/Board';
 import OptionsPanel from './components/OptionsPanel';
 
-import { BoardNode, Coords, NodeType } from './model';
+import { BoardNode, Coords, NodeType, Algorithm } from './model';
 
 function App() {
   const [startCoords, setStartCoords] = useState<Coords>({ x: -1, y: -1 });
@@ -11,6 +11,7 @@ function App() {
   const [nodeSelectType, setNodeSelectNodeType] = useState<NodeType>(
     NodeType.Start
   );
+  const [algorithm, setAlgorithm] = useState<Algorithm>(Algorithm.Brute);
   const [nodes, setNodes] = useState<BoardNode[][]>([]);
   const [holding, setHolding] = useState<Boolean>(false);
 
@@ -50,6 +51,10 @@ function App() {
     resetBoard();
   };
 
+  const start = (): void => {
+    console.log(start);
+  };
+
   const handleMouseUp = (e: React.MouseEvent): void => {
     if (nodeSelectType === NodeType.Wall && holding) {
       setHolding(false);
@@ -76,6 +81,7 @@ function App() {
 
         <Board
           nodeSelectType={nodeSelectType}
+          algorithm={algorithm}
           nodes={nodes}
           setNodes={setNodes}
           startCoords={startCoords}
@@ -90,6 +96,9 @@ function App() {
         <OptionsPanel
           nodeSelectType={nodeSelectType}
           setNodeSelectType={setNodeSelectNodeType}
+          algorithm={algorithm}
+          setAlgorithm={setAlgorithm}
+          start={start}
           resetAll={resetAll}
         />
       </div>

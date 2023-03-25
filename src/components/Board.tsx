@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Node from './Node';
-import { BoardNode, Coords, NodeType } from './../model';
+import { BoardNode, Coords, NodeType, Algorithm } from './../model';
 
 type Props = {
   nodeSelectType: NodeType;
+  algorithm: Algorithm;
   nodes: BoardNode[][];
   setNodes: React.Dispatch<React.SetStateAction<BoardNode[][]>>;
   startCoords: Coords;
@@ -16,6 +17,7 @@ type Props = {
 
 const Board: React.FC<Props> = ({
   nodeSelectType,
+  algorithm,
   nodes,
   setNodes,
   startCoords,
