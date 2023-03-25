@@ -4,7 +4,7 @@ export type BoardNode = {
   y: number;
 };
 
-export type Coords = {
+export type Pos = {
   x: number;
   y: number;
 };
@@ -15,6 +15,7 @@ export enum NodeType {
   End = 'end',
   Wall = 'wall',
   Visited = 'visited',
+  Path = 'path',
 }
 
 export enum Algorithm {

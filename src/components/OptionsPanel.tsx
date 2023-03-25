@@ -1,5 +1,5 @@
 import React from 'react';
-import { NodeType, Algorithm } from '../model';
+import { NodeType, Algorithm } from '../types';
 
 type Props = {
   nodeSelectType: NodeType;

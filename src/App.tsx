@@ -3,27 +3,27 @@ import './App.css';
 import Board from './components/Board';
 import OptionsPanel from './components/OptionsPanel';
 
-import { BoardNode, Coords, NodeType, Algorithm } from './model';
+import { BoardNode, Pos, NodeType, Algorithm } from './types';
 
 function App() {
-  const [startCoords, setStartCoords] = useState<Coords>({ x: -1, y: -1 });
-  const [endCoords, setEndCoords] = useState<Coords>({ x: -1, y: -1 });
+  const [startPos, setStartPos] = useState<Pos>({ x: -1, y: -1 });
+  const [endPos, setEndPos] = useState<Pos>({ x: -1, y: -1 });
   const [nodeSelectType, setNodeSelectNodeType] = useState<NodeType>(
     NodeType.Start
   );
   const [algorithm, setAlgorithm] = useState<Algorithm>(Algorithm.Brute);
-  const [nodes, setNodes] = useState<BoardNode[][]>([]);
+  const [grid, setGrid] = useState<BoardNode[][]>([]);
   const [holding, setHolding] = useState<Boolean>(false);
 
   const rows = 20;
   const cols = 38;
 
-  const resetStartCoords = (): void => {
-    setStartCoords({ x: -1, y: -1 });
+  const resetStartPos = (): void => {
+    setStartPos({ x: -1, y: -1 });
   };
 
-  const resetEndCoords = (): void => {
-    setEndCoords({ x: -1, y: -1 });
+  const resetEndPos = (): void => {
+    setEndPos({ x: -1, y: -1 });
   };
 
   const resetBoard = (): void => {
@@ -42,23 +42,23 @@ function App() {
       }
     }
 
-    setNodes(newBoard);
-  };
-
-  const resetAll = (): void => {
-    resetStartCoords();
-    resetEndCoords();
-    resetBoard();
-  };
-
-  const start = (): void => {
-    console.log(start);
+    setGrid(newBoard);
   };
 
   const handleMouseUp = (e: React.MouseEvent): void => {
     if (nodeSelectType === NodeType.Wall && holding) {
       setHolding(false);
     }
+  };
+
+  const resetAll = (): void => {
+    resetStartPos();
+    resetEndPos();
+    resetBoard();
+  };
+
+  const start = (): void => {
+    console.log(start);
   };
 
   useEffect(() => {
@@ -82,12 +82,12 @@ function App() {
         <Board
           nodeSelectType={nodeSelectType}
           algorithm={algorithm}
-          nodes={nodes}
-          setNodes={setNodes}
-          startCoords={startCoords}
-          setStartCoords={setStartCoords}
-          endCoords={endCoords}
-          setEndCoords={setEndCoords}
+          grid={grid}
+          setGrid={setGrid}
+          startPos={startPos}
+          setStartPos={setStartPos}
+          endPos={endPos}
+          setEndPos={setEndPos}
           holding={holding}
           setHolding={setHolding}
         />

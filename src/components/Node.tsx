@@ -1,15 +1,15 @@
 import React from 'react';
-import { BoardNode, Coords, NodeType } from './../model';
+import { BoardNode, Pos, NodeType } from '../types';
 
 type Props = {
   nodeSelectType: NodeType;
   node: BoardNode;
   nodes: BoardNode[][];
   setNodes: React.Dispatch<React.SetStateAction<BoardNode[][]>>;
-  startCoords: Coords;
-  setStartCoords: React.Dispatch<React.SetStateAction<Coords>>;
-  endCoords: Coords;
-  setEndCoords: React.Dispatch<React.SetStateAction<Coords>>;
+  startPos: Pos;
+  setStartPos: React.Dispatch<React.SetStateAction<Pos>>;
+  endPos: Pos;
+  setEndPos: React.Dispatch<React.SetStateAction<Pos>>;
   holding: Boolean;
   setHolding: React.Dispatch<React.SetStateAction<Boolean>>;
 };
@@ -19,10 +19,10 @@ const Node: React.FC<Props> = ({
   node,
   nodes,
   setNodes,
-  startCoords,
-  setStartCoords,
-  endCoords,
-  setEndCoords,
+  startPos,
+  setStartPos,
+  endPos,
+  setEndPos,
   holding,
   setHolding,
 }: Props) => {
@@ -30,16 +30,16 @@ const Node: React.FC<Props> = ({
     const newNodes = [...nodes];
 
     if (nodeSelectType === NodeType.Start) {
-      if (startCoords.x !== -1) {
-        newNodes[startCoords.y][startCoords.x].type = NodeType.Default;
+      if (startPos.x !== -1) {
+        newNodes[startPos.y][startPos.x].type = NodeType.Default;
       }
-      setStartCoords({ x: node.x, y: node.y });
+      setStartPos({ x: node.x, y: node.y });
     }
     if (nodeSelectType === NodeType.End) {
-      if (endCoords.x !== -1) {
-        newNodes[endCoords.y][endCoords.x].type = NodeType.Default;
+      if (endPos.x !== -1) {
+        newNodes[endPos.y][endPos.x].type = NodeType.Default;
       }
-      setEndCoords({ x: node.x, y: node.y });
+      setEndPos({ x: node.x, y: node.y });
     }
 
     newNodes[node.y][node.x].type = nodeSelectType;
@@ -73,6 +73,8 @@ const Node: React.FC<Props> = ({
     bgColor = 'bg-gray-500';
   } else if (node.type === NodeType.Visited) {
     bgColor = 'bg-blue-500';
+  } else if (node.type === NodeType.Path) {
+    bgColor = 'bg-yellow-500';
   }
 
   return (
