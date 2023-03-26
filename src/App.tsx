@@ -16,7 +16,7 @@ function App() {
   const [grid, setGrid] = useState<GridNode[][]>([]);
   const [holding, setHolding] = useState<Boolean>(false);
 
-  const cols = 38;
+  const cols = 40;
   const rows = 20;
   const initialStartPos = { x: Math.floor(cols / 4), y: Math.floor(rows / 2) };
   const initialEndPos = {
@@ -146,7 +146,7 @@ function App() {
       </div>
 
       {/* Main Panel */}
-      <div className="mx-1 grid grid-cols-5">
+      <div className="mx-3 grid grid-cols-7">
         {/* Grid */}
 
         <Grid

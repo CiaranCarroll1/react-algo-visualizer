@@ -28,7 +28,7 @@ const Grid: React.FC<Props> = ({
   setHolding,
 }) => {
   return (
-    <div className="col-span-4 flex flex-col">
+    <div className="col-span-6 flex flex-col">
       {grid.map((row, y) => {
         return (
           <div key={y} className="flex">
