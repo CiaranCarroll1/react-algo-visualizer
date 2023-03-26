@@ -1,15 +1,15 @@
 import React from 'react';
-import { BoardNode, NodeType } from '../types';
+import { GridNode, NodeType } from '../types';
 
 type Props = {
   nodeSelectType: NodeType;
-  node: BoardNode;
-  grid: BoardNode[][];
-  setGrid: React.Dispatch<React.SetStateAction<BoardNode[][]>>;
-  startNode: BoardNode;
-  setStartNode: React.Dispatch<React.SetStateAction<BoardNode>>;
-  endNode: BoardNode;
-  setEndNode: React.Dispatch<React.SetStateAction<BoardNode>>;
+  node: GridNode;
+  grid: GridNode[][];
+  setGrid: React.Dispatch<React.SetStateAction<GridNode[][]>>;
+  startNode: GridNode;
+  setStartNode: React.Dispatch<React.SetStateAction<GridNode | undefined>>;
+  endNode: GridNode;
+  setEndNode: React.Dispatch<React.SetStateAction<GridNode | undefined>>;
   holding: Boolean;
   setHolding: React.Dispatch<React.SetStateAction<Boolean>>;
 };

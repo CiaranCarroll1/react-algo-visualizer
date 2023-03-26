@@ -73,16 +73,6 @@ const OptionsPanel: React.FC<Props> = ({
       <label>
         <input
           type="radio"
-          value={Algorithm.Brute}
-          name="algorithm"
-          checked={algorithm === Algorithm.Brute}
-          onChange={handleAlgorithmSelectionChanged}
-        />{' '}
-        Brute force
-      </label>
-      <label>
-        <input
-          type="radio"
           value={Algorithm.Dijkstra}
           name="algorithm"
           checked={algorithm === Algorithm.Dijkstra}

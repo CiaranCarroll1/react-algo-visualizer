@@ -1,21 +1,21 @@
 import React from 'react';
 import Node from './Node';
-import { BoardNode, NodeType, Algorithm } from '../types';
+import { GridNode, NodeType, Algorithm } from '../types';
 
 type Props = {
   nodeSelectType: NodeType;
   algorithm: Algorithm;
-  grid: BoardNode[][];
-  setGrid: React.Dispatch<React.SetStateAction<BoardNode[][]>>;
-  startNode: BoardNode;
-  setStartNode: React.Dispatch<React.SetStateAction<BoardNode>>;
-  endNode: BoardNode;
-  setEndNode: React.Dispatch<React.SetStateAction<BoardNode>>;
+  grid: GridNode[][];
+  setGrid: React.Dispatch<React.SetStateAction<GridNode[][]>>;
+  startNode: GridNode;
+  setStartNode: React.Dispatch<React.SetStateAction<GridNode | undefined>>;
+  endNode: GridNode;
+  setEndNode: React.Dispatch<React.SetStateAction<GridNode | undefined>>;
   holding: Boolean;
   setHolding: React.Dispatch<React.SetStateAction<Boolean>>;
 };
 
-const Board: React.FC<Props> = ({
+const Grid: React.FC<Props> = ({
   nodeSelectType,
   algorithm,
   grid,
@@ -56,4 +56,4 @@ const Board: React.FC<Props> = ({
   );
 };
 
-export default Board;
+export default Grid;

@@ -1,16 +1,16 @@
-export type BoardNode = {
+export type GridNode = {
   type: NodeType;
   x: number;
   y: number;
   g: number;
   f: number;
   h: number;
-  previous: BoardNode | null;
+  previous: GridNode | null;
 };
 
 export type Result = {
-  path: BoardNode[];
-  visited: BoardNode[];
+  path: GridNode[];
+  visited: GridNode[];
 };
 
 export enum NodeType {

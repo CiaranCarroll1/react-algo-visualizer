@@ -1,94 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import Board from './components/Board';
+import Grid from './components/Grid';
 import OptionsPanel from './components/OptionsPanel';
 
-import { BoardNode, NodeType, Algorithm, Result } from './types';
+import { GridNode, NodeType, Algorithm, Result } from './types';
 import { astar } from './algorithms/astar';
 
 function App() {
-  const cols = 38;
-  const rows = 20;
-
-  const [startNode, setStartNode] = useState<BoardNode>({
-    type: NodeType.Start,
-    x: 0,
-    y: 0,
-    g: 0,
-    f: 0,
-    h: 0,
-    previous: null,
-  });
-  const [endNode, setEndNode] = useState<BoardNode>({
-    type: NodeType.End,
-    x: cols - 1,
-    y: rows - 1,
-    g: 0,
-    f: 0,
-    h: 0,
-    previous: null,
-  });
+  const [startNode, setStartNode] = useState<GridNode>();
+  const [endNode, setEndNode] = useState<GridNode>();
   const [nodeSelectType, setNodeSelectNodeType] = useState<NodeType>(
     NodeType.Start
   );
-  const [algorithm, setAlgorithm] = useState<Algorithm>(Algorithm.Brute);
-  const [grid, setGrid] = useState<BoardNode[][]>([]);
+  const [algorithm, setAlgorithm] = useState<Algorithm>(Algorithm.Dijkstra);
+  const [grid, setGrid] = useState<GridNode[][]>([]);
   const [holding, setHolding] = useState<Boolean>(false);
 
-  const resetStartNode = (): void => {
-    setStartNode({
-      type: NodeType.Default,
-      x: 0,
-      y: 0,
-      g: 0,
-      f: 0,
-      h: 0,
-      previous: null,
-    });
+  const cols = 38;
+  const rows = 20;
+  const initialStartPos = { x: Math.floor(cols / 4), y: Math.floor(rows / 2) };
+  const initialEndPos = {
+    x: Math.floor(cols / 4) * 3,
+    y: Math.floor(rows / 2),
   };
 
-  const resetEndNode = (): void => {
-    setEndNode({
-      type: NodeType.Default,
-      x: 37,
-      y: 19,
-      g: 0,
-      f: 0,
-      h: 0,
-      previous: null,
-    });
-  };
-
-  const resetBoard = (): void => {
-    const newBoard: BoardNode[][] = [];
+  const initializeGrid = (): GridNode[][] => {
+    const newGrid: GridNode[][] = [];
 
     for (let y = 0; y < rows; y++) {
-      newBoard.push([]);
+      newGrid.push([]);
       for (let x = 0; x < cols; x++) {
-        const node: BoardNode = {
+        const node: GridNode = {
           type: NodeType.Default,
           x: x,
           y: y,
-          g: 0,
+          g: algorithm === Algorithm.Dijkstra ? Infinity : 0,
           f: 0,
           h: 0,
           previous: null,
         };
 
-        if (x === 0 && y === 0) {
-          node.type = NodeType.Start;
-          setStartNode(node);
-        }
-        if (x === cols - 1 && y === rows - 1) {
-          node.type = NodeType.End;
-          setEndNode(node);
-        }
-
-        newBoard[y].push(node);
+        newGrid[y].push(node);
       }
     }
 
-    setGrid(newBoard);
+    return newGrid;
   };
 
   const handleMouseUp = (e: React.MouseEvent): void => {
@@ -98,12 +54,32 @@ function App() {
   };
 
   const resetAll = (): void => {
-    resetStartNode();
-    resetEndNode();
-    resetBoard();
+    const newGrid = initializeGrid();
+
+    if (startNode && endNode) {
+      const newStart = newGrid[startNode.y][startNode.x];
+      newStart.type = NodeType.Start;
+      newStart.g = algorithm === Algorithm.Dijkstra ? Infinity : 0;
+      setStartNode(newStart);
+
+      const newEnd = newGrid[endNode.y][endNode.x];
+      newEnd.type = NodeType.End;
+      newEnd.g = algorithm === Algorithm.Dijkstra ? Infinity : 0;
+      setEndNode(newEnd);
+    } else {
+      const start = newGrid[initialStartPos.y][initialStartPos.x];
+      start.type = NodeType.Start;
+      setStartNode(start);
+
+      const end = newGrid[initialEndPos.y][initialEndPos.x];
+      end.type = NodeType.End;
+      setEndNode(end);
+    }
+
+    setGrid(newGrid);
   };
 
-  const animateVisited = async (nodes: BoardNode[]) => {
+  const animateVisited = async (nodes: GridNode[]) => {
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i];
       if (node.type !== NodeType.Start && node.type !== NodeType.End) {
@@ -111,12 +87,12 @@ function App() {
           let newGrid = [...grid];
           newGrid[node.y][node.x].type = NodeType.Visited;
           setGrid(newGrid);
-        }, 25 * i);
+        }, 20 * i);
       }
     }
   };
 
-  const animatePath = (nodes: BoardNode[], visitedLength: number) => {
+  const animatePath = (nodes: GridNode[], visitedLength: number) => {
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i];
       if (node.type !== NodeType.Start && node.type !== NodeType.End) {
@@ -124,7 +100,7 @@ function App() {
           let newGrid = [...grid];
           newGrid[node.y][node.x].type = NodeType.Path;
           setGrid(newGrid);
-        }, 25 * (visitedLength + i));
+        }, 20 * (visitedLength + i));
       }
     }
   };
@@ -142,7 +118,12 @@ function App() {
   ): void => {
     event.preventDefault();
 
-    const result = astar(grid, startNode, endNode);
+    const result = astar(
+      grid,
+      startNode as GridNode,
+      endNode as GridNode,
+      algorithm === Algorithm.Astar
+    );
     if (result === null) {
       alert('No path');
     } else {
@@ -150,51 +131,9 @@ function App() {
     }
   };
 
-  // useEffect(() => {
-  //   if (result === null) return;
-
-  //   const tempIntervalId = setInterval(() => {
-  //     if (result.closedList.length > 0) {
-  //       const tempGrid = [...grid];
-  //       const tempResult = { ...result };
-  //       const nodeToUpdate = tempResult.closedList.pop();
-  //       if (
-  //         nodeToUpdate &&
-  //         nodeToUpdate.type !== NodeType.Start &&
-  //         nodeToUpdate.type !== NodeType.End
-  //       ) {
-  //         tempGrid[nodeToUpdate.y][nodeToUpdate.x].type = NodeType.Visited;
-  //         setResult(tempResult);
-  //         setGrid(tempGrid);
-  //       }
-  //     } else if (result.path.length > 0) {
-  //       const tempGrid = [...grid];
-  //       const tempResult = { ...result };
-  //       const nodeToUpdate = tempResult.path.pop();
-  //       if (
-  //         nodeToUpdate &&
-  //         nodeToUpdate.type !== NodeType.Start &&
-  //         nodeToUpdate.type !== NodeType.End
-  //       ) {
-  //         tempGrid[nodeToUpdate.y][nodeToUpdate.x].type = NodeType.Path;
-  //         setResult(tempResult);
-  //         setGrid(tempGrid);
-  //       }
-  //     } else {
-  //       clearInterval(intervalId);
-  //     }
-  //   }, 200);
-
-  //   setIntervalId(tempIntervalId);
-
-  //   return () => {
-  //     clearInterval(intervalId);
-  //   };
-  // }, [result]);
-
   useEffect(() => {
-    resetBoard();
-  }, []);
+    resetAll();
+  }, [algorithm]);
 
   return (
     <div
@@ -208,16 +147,16 @@ function App() {
 
       {/* Main Panel */}
       <div className="mx-1 grid grid-cols-5">
-        {/* Board */}
+        {/* Grid */}
 
-        <Board
+        <Grid
           nodeSelectType={nodeSelectType}
           algorithm={algorithm}
           grid={grid}
           setGrid={setGrid}
-          startNode={startNode}
+          startNode={startNode as GridNode}
           setStartNode={setStartNode}
-          endNode={endNode}
+          endNode={endNode as GridNode}
           setEndNode={setEndNode}
           holding={holding}
           setHolding={setHolding}

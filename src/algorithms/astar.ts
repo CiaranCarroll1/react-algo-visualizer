@@ -1,12 +1,15 @@
-import { BoardNode, NodeType } from '../types';
+import { GridNode, NodeType } from '../types';
 
-const getDistance = (nodeA: BoardNode, nodeB: BoardNode): number => {
+const getDistance = (nodeA: GridNode, nodeB: GridNode): number => {
   let dx = Math.abs(nodeA.x - nodeB.x);
   let dy = Math.abs(nodeA.y - nodeB.y);
   return Math.sqrt(dx * dx + dy * dy);
 };
 
-const getNeighbors = (node: BoardNode, grid: BoardNode[][]): BoardNode[] => {
+export const getNeighbors = (
+  node: GridNode,
+  grid: GridNode[][]
+): GridNode[] => {
   let neighbors = [];
   let x = node.x;
   let y = node.y;
@@ -28,13 +31,14 @@ const getNeighbors = (node: BoardNode, grid: BoardNode[][]): BoardNode[] => {
 };
 
 export const astar = (
-  grid: BoardNode[][],
-  startNode: BoardNode,
-  endNode: BoardNode
+  grid: GridNode[][],
+  startNode: GridNode,
+  endNode: GridNode,
+  useAstar = false
 ) => {
   // Create an empty open list and a closed list
-  let openList: BoardNode[] = [];
-  let closedList: BoardNode[] = [];
+  let openList: GridNode[] = [];
+  let closedList: GridNode[] = [];
 
   // Add the starting node to the open list
   openList.push(startNode);
@@ -43,9 +47,12 @@ export const astar = (
   while (openList.length > 0) {
     // Find the node with the lowest f cost
     let currentNode = openList[0];
-    for (let i = 1; i < openList.length; i++) {
-      if (openList[i].f < currentNode.f) {
-        currentNode = openList[i];
+
+    if (useAstar) {
+      for (let i = 1; i < openList.length; i++) {
+        if (openList[i].f < currentNode.f) {
+          currentNode = openList[i];
+        }
       }
     }
 
@@ -54,7 +61,7 @@ export const astar = (
     closedList.push(currentNode);
 
     // If we have reached the end node, return the path
-    if (currentNode === endNode) {
+    if (currentNode.x === endNode.x && currentNode.y === endNode.y) {
       let path = [];
       let temp = currentNode;
       while (temp.previous) {
@@ -91,8 +98,10 @@ export const astar = (
 
       // Update the neighbor's g, h, and f scores
       neighbor.g = gScore;
-      neighbor.h = getDistance(neighbor, endNode);
-      neighbor.f = neighbor.g + neighbor.h;
+      if (useAstar) {
+        neighbor.h = getDistance(neighbor, endNode);
+        neighbor.f = neighbor.g + neighbor.h;
+      }
       neighbor.previous = currentNode;
     }
   }
