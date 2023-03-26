@@ -11,8 +11,8 @@ const Navbar: React.FC<Props> = ({
   handleResetClick,
 }: Props) => {
   return (
-    <div className="w-full h-[50px] px-4 flex justify-between items-center text-gray-300">
-      <h1 className="p-2 select-none text-yellow-500 text-3xl bold">
+    <div className="w-full px-2 h-[50px] flex justify-between items-center text-gray-300">
+      <h1 className="select-none text-yellow-500 text-3xl bold">
         Algo Visualizer
       </h1>
       <div className="flex">

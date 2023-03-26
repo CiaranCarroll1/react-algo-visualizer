@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Toolbar from './components/Toolbar';
 import Grid from './components/Grid';
-import OptionsPanel from './components/OptionsPanel';
-
+import OptionsBar from './components/OptionsBar';
 import { GridNode, NodeType, Algorithm, Result } from './types';
 import { dijkstra } from './algorithms/dijkstra';
-import { RxPlay, RxReset } from 'react-icons/rx';
 
 function App() {
   const [startNode, setStartNode] = useState<GridNode>();
@@ -161,7 +159,7 @@ function App() {
       />
 
       {/* Options Panel */}
-      <OptionsPanel
+      <OptionsBar
         nodeSelectType={nodeSelectType}
         setNodeSelectType={setNodeSelectNodeType}
         algorithm={algorithm}
