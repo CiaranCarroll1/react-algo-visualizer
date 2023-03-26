@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import Toolbar from './components/Toolbar';
 import Grid from './components/Grid';
 import OptionsPanel from './components/OptionsPanel';
 
 import { GridNode, NodeType, Algorithm, Result } from './types';
-import { astar } from './algorithms/astar';
+import { dijkstra } from './algorithms/dijkstra';
+import { RxPlay, RxReset } from 'react-icons/rx';
 
 function App() {
   const [startNode, setStartNode] = useState<GridNode>();
@@ -16,7 +18,7 @@ function App() {
   const [grid, setGrid] = useState<GridNode[][]>([]);
   const [holding, setHolding] = useState<Boolean>(false);
 
-  const cols = 40;
+  const cols = 54;
   const rows = 20;
   const initialStartPos = { x: Math.floor(cols / 4), y: Math.floor(rows / 2) };
   const initialEndPos = {
@@ -53,7 +55,7 @@ function App() {
     }
   };
 
-  const resetAll = (): void => {
+  const reset = (): void => {
     const newGrid = initializeGrid();
 
     if (startNode && endNode) {
@@ -77,6 +79,14 @@ function App() {
     }
 
     setGrid(newGrid);
+  };
+
+  const handleResetClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): void => {
+    event.preventDefault();
+
+    reset();
   };
 
   const animateVisited = async (nodes: GridNode[]) => {
@@ -113,26 +123,30 @@ function App() {
     animatePath(path, visited.length);
   };
 
-  const handleStartClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ): void => {
-    event.preventDefault();
-
-    const result = astar(
+  const play = (): void => {
+    const result = dijkstra(
       grid,
       startNode as GridNode,
       endNode as GridNode,
       algorithm === Algorithm.Astar
     );
     if (result === null) {
-      alert('No path');
+      alert('Not possible');
     } else {
       animate(result);
     }
   };
 
+  const handlePlayClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): void => {
+    event.preventDefault();
+
+    play();
+  };
+
   useEffect(() => {
-    resetAll();
+    reset();
   }, [algorithm]);
 
   return (
@@ -140,38 +154,33 @@ function App() {
       onMouseUp={handleMouseUp}
       className="w-full h-screen flex flex-col bg-[#0B0B45]"
     >
-      {/* Navbar */}
-      <div className="w-full h-[50px] px-4 flex justify-center text-gray-300">
-        <h1 className="p-2 select-none text-3xl bold">Algo Visualizer</h1>
-      </div>
+      {/* Toolbar */}
+      <Toolbar
+        handlePlayClick={handlePlayClick}
+        handleResetClick={handleResetClick}
+      />
 
-      {/* Main Panel */}
-      <div className="mx-3 grid grid-cols-7">
-        {/* Grid */}
+      {/* Options Panel */}
+      <OptionsPanel
+        nodeSelectType={nodeSelectType}
+        setNodeSelectType={setNodeSelectNodeType}
+        algorithm={algorithm}
+        setAlgorithm={setAlgorithm}
+      />
 
-        <Grid
-          nodeSelectType={nodeSelectType}
-          algorithm={algorithm}
-          grid={grid}
-          setGrid={setGrid}
-          startNode={startNode as GridNode}
-          setStartNode={setStartNode}
-          endNode={endNode as GridNode}
-          setEndNode={setEndNode}
-          holding={holding}
-          setHolding={setHolding}
-        />
-
-        {/* Options Panel */}
-        <OptionsPanel
-          nodeSelectType={nodeSelectType}
-          setNodeSelectType={setNodeSelectNodeType}
-          algorithm={algorithm}
-          setAlgorithm={setAlgorithm}
-          resetAll={resetAll}
-          handleStartClick={handleStartClick}
-        />
-      </div>
+      {/* Grid */}
+      <Grid
+        nodeSelectType={nodeSelectType}
+        algorithm={algorithm}
+        grid={grid}
+        setGrid={setGrid}
+        startNode={startNode as GridNode}
+        setStartNode={setStartNode}
+        endNode={endNode as GridNode}
+        setEndNode={setEndNode}
+        holding={holding}
+        setHolding={setHolding}
+      />
     </div>
   );
 }

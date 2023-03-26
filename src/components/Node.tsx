@@ -82,7 +82,7 @@ const Node: React.FC<Props> = ({
       <div
         onMouseDown={handleMouseDown}
         onMouseOver={handleMouseOver}
-        className={`w-7 h-7 ${bgColor} cursor-pointer text-center`}
+        className={`w-6 h-6 ${bgColor} cursor-pointer text-center`}
       ></div>
     </div>
   );

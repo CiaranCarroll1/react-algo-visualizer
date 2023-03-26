@@ -30,7 +30,7 @@ export const getNeighbors = (
   return neighbors;
 };
 
-export const astar = (
+export const dijkstra = (
   grid: GridNode[][],
   startNode: GridNode,
   endNode: GridNode,
