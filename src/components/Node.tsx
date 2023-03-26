@@ -1,15 +1,15 @@
 import React from 'react';
-import { BoardNode, Pos, NodeType } from '../types';
+import { BoardNode, NodeType } from '../types';
 
 type Props = {
   nodeSelectType: NodeType;
   node: BoardNode;
   grid: BoardNode[][];
   setGrid: React.Dispatch<React.SetStateAction<BoardNode[][]>>;
-  startPos: Pos;
-  setStartPos: React.Dispatch<React.SetStateAction<Pos>>;
-  endPos: Pos;
-  setEndPos: React.Dispatch<React.SetStateAction<Pos>>;
+  startNode: BoardNode;
+  setStartNode: React.Dispatch<React.SetStateAction<BoardNode>>;
+  endNode: BoardNode;
+  setEndNode: React.Dispatch<React.SetStateAction<BoardNode>>;
   holding: Boolean;
   setHolding: React.Dispatch<React.SetStateAction<Boolean>>;
 };
@@ -19,10 +19,10 @@ const Node: React.FC<Props> = ({
   node,
   grid,
   setGrid,
-  startPos,
-  setStartPos,
-  endPos,
-  setEndPos,
+  startNode,
+  setStartNode,
+  endNode,
+  setEndNode,
   holding,
   setHolding,
 }: Props) => {
@@ -30,16 +30,16 @@ const Node: React.FC<Props> = ({
     const newNodes = [...grid];
 
     if (nodeSelectType === NodeType.Start) {
-      if (startPos.x !== -1) {
-        newNodes[startPos.y][startPos.x].type = NodeType.Default;
+      if (startNode.x !== -1) {
+        newNodes[startNode.y][startNode.x].type = NodeType.Default;
       }
-      setStartPos({ x: node.x, y: node.y });
+      setStartNode(node);
     }
     if (nodeSelectType === NodeType.End) {
-      if (endPos.x !== -1) {
-        newNodes[endPos.y][endPos.x].type = NodeType.Default;
+      if (endNode.x !== -1) {
+        newNodes[endNode.y][endNode.x].type = NodeType.Default;
       }
-      setEndPos({ x: node.x, y: node.y });
+      setEndNode(node);
     }
 
     newNodes[node.y][node.x].type = nodeSelectType;
@@ -82,7 +82,7 @@ const Node: React.FC<Props> = ({
       <div
         onMouseDown={handleMouseDown}
         onMouseOver={handleMouseOver}
-        className={`w-7 h-7 ${bgColor} cursor-pointer`}
+        className={`w-7 h-7 ${bgColor} cursor-pointer text-center`}
       ></div>
     </div>
   );

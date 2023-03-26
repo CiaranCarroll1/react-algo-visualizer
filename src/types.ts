@@ -2,11 +2,15 @@ export type BoardNode = {
   type: NodeType;
   x: number;
   y: number;
+  g: number;
+  f: number;
+  h: number;
+  previous: BoardNode | null;
 };
 
-export type Pos = {
-  x: number;
-  y: number;
+export type Result = {
+  path: BoardNode[];
+  visited: BoardNode[];
 };
 
 export enum NodeType {

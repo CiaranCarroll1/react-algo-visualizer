@@ -1,16 +1,16 @@
 import React from 'react';
 import Node from './Node';
-import { BoardNode, Pos, NodeType, Algorithm } from '../types';
+import { BoardNode, NodeType, Algorithm } from '../types';
 
 type Props = {
   nodeSelectType: NodeType;
   algorithm: Algorithm;
   grid: BoardNode[][];
   setGrid: React.Dispatch<React.SetStateAction<BoardNode[][]>>;
-  startPos: Pos;
-  setStartPos: React.Dispatch<React.SetStateAction<Pos>>;
-  endPos: Pos;
-  setEndPos: React.Dispatch<React.SetStateAction<Pos>>;
+  startNode: BoardNode;
+  setStartNode: React.Dispatch<React.SetStateAction<BoardNode>>;
+  endNode: BoardNode;
+  setEndNode: React.Dispatch<React.SetStateAction<BoardNode>>;
   holding: Boolean;
   setHolding: React.Dispatch<React.SetStateAction<Boolean>>;
 };
@@ -20,10 +20,10 @@ const Board: React.FC<Props> = ({
   algorithm,
   grid,
   setGrid,
-  startPos,
-  setStartPos,
-  endPos,
-  setEndPos,
+  startNode,
+  setStartNode,
+  endNode,
+  setEndNode,
   holding,
   setHolding,
 }) => {
@@ -40,10 +40,10 @@ const Board: React.FC<Props> = ({
                   node={node}
                   grid={grid}
                   setGrid={setGrid}
-                  startPos={startPos}
-                  setStartPos={setStartPos}
-                  endPos={endPos}
-                  setEndPos={setEndPos}
+                  startNode={startNode}
+                  setStartNode={setStartNode}
+                  endNode={endNode}
+                  setEndNode={setEndNode}
                   holding={holding}
                   setHolding={setHolding}
                 />

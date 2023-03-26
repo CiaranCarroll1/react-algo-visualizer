@@ -7,7 +7,7 @@ type Props = {
   algorithm: Algorithm;
   setAlgorithm: React.Dispatch<React.SetStateAction<Algorithm>>;
   resetAll: () => void;
-  start: () => void;
+  handleStartClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 const OptionsPanel: React.FC<Props> = ({
@@ -16,7 +16,7 @@ const OptionsPanel: React.FC<Props> = ({
   algorithm,
   setAlgorithm,
   resetAll,
-  start,
+  handleStartClick,
 }: Props) => {
   const handleNodeTypeSelectionChanged = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -105,7 +105,7 @@ const OptionsPanel: React.FC<Props> = ({
       <hr className="border-gray-300 my-5"></hr>
 
       <button
-        onClick={start}
+        onClick={handleStartClick}
         className="p-1 border mb-5 text-[#0B0B45] bg-gray-300 border-gray-300 rounded"
       >
         Start
