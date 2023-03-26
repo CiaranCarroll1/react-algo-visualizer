@@ -17,10 +17,10 @@ function App() {
   const [holding, setHolding] = useState<Boolean>(false);
 
   const cols = 54;
-  const rows = 20;
+  const rows = 21;
   const initialStartPos = { x: Math.floor(cols / 4), y: Math.floor(rows / 2) };
   const initialEndPos = {
-    x: Math.floor(cols / 4) * 3,
+    x: cols - Math.floor(cols / 4),
     y: Math.floor(rows / 2),
   };
 
