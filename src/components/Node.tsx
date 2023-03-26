@@ -1,5 +1,7 @@
 import React from 'react';
 import { GridNode, NodeType } from '../types';
+import { TbArrowBigRightLines, TbTarget } from 'react-icons/tb';
+import { GiBrickWall } from 'react-icons/gi';
 
 type Props = {
   nodeSelectType: NodeType;
@@ -83,7 +85,11 @@ const Node: React.FC<Props> = ({
         onMouseDown={handleMouseDown}
         onMouseOver={handleMouseOver}
         className={`w-6 h-6 ${bgColor} cursor-pointer text-center`}
-      ></div>
+      >
+        {node.type === NodeType.Start && <TbArrowBigRightLines size={24} />}
+        {node.type === NodeType.End && <TbTarget size={24} />}
+        {node.type === NodeType.Wall && <GiBrickWall size={24} />}
+      </div>
     </div>
   );
 };
