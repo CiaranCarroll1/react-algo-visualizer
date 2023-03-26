@@ -82,12 +82,13 @@ export const dijkstra = (
       let neighbor = neighbors[i];
 
       // If the neighbor is in the closed list, skip it
-      if (closedList.includes(neighbor) || neighbor.type === NodeType.Wall) {
+      if (closedList.includes(neighbor) || neighbor.isWall) {
         continue;
       }
 
       // Calculate the new g cost
-      let gScore = currentNode.g + getDistance(currentNode, neighbor);
+      const distance = neighbor.isWeighted ? 4 : 1;
+      let gScore = currentNode.g + distance;
 
       // If the neighbor is not in the open list, add it
       if (!openList.includes(neighbor)) {

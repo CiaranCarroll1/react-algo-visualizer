@@ -1,6 +1,6 @@
 import React from 'react';
 import { GridNode, NodeType } from '../types';
-import { TbArrowBigRightLines, TbTarget } from 'react-icons/tb';
+import { TbArrowBigRightLines, TbTarget, TbWeight } from 'react-icons/tb';
 import { GiBrickWall } from 'react-icons/gi';
 
 type Props = {
@@ -36,12 +36,15 @@ const Node: React.FC<Props> = ({
         newNodes[startNode.y][startNode.x].type = NodeType.Default;
       }
       setStartNode(node);
-    }
-    if (nodeSelectType === NodeType.End) {
+    } else if (nodeSelectType === NodeType.End) {
       if (endNode.x !== -1) {
         newNodes[endNode.y][endNode.x].type = NodeType.Default;
       }
       setEndNode(node);
+    } else if (nodeSelectType === NodeType.Wall) {
+      newNodes[node.y][node.x].isWall = true;
+    } else if (nodeSelectType === NodeType.Weighted) {
+      newNodes[node.y][node.x].isWeighted = true;
     }
 
     newNodes[node.y][node.x].type = nodeSelectType;
@@ -53,7 +56,10 @@ const Node: React.FC<Props> = ({
 
     updateType();
 
-    if (nodeSelectType === NodeType.Wall) {
+    if (
+      nodeSelectType === NodeType.Wall ||
+      nodeSelectType === NodeType.Weighted
+    ) {
       setHolding(true);
     }
   };
@@ -61,7 +67,11 @@ const Node: React.FC<Props> = ({
   const handleMouseOver = (e: React.MouseEvent): void => {
     e.preventDefault();
 
-    if (nodeSelectType === NodeType.Wall && holding) {
+    if (
+      (nodeSelectType === NodeType.Wall ||
+        nodeSelectType === NodeType.Weighted) &&
+      holding
+    ) {
       updateType();
     }
   };
@@ -71,8 +81,6 @@ const Node: React.FC<Props> = ({
     bgColor = 'bg-green-500';
   } else if (node.type === NodeType.End) {
     bgColor = 'bg-red-500';
-  } else if (node.type === NodeType.Wall) {
-    bgColor = 'bg-gray-500';
   } else if (node.type === NodeType.Visited) {
     bgColor = 'bg-blue-500';
   } else if (node.type === NodeType.Path) {
@@ -88,7 +96,8 @@ const Node: React.FC<Props> = ({
       >
         {node.type === NodeType.Start && <TbArrowBigRightLines size={24} />}
         {node.type === NodeType.End && <TbTarget size={24} />}
-        {node.type === NodeType.Wall && <GiBrickWall size={24} />}
+        {node.isWall && <GiBrickWall size={24} />}
+        {node.isWeighted && <TbWeight size={24} />}
       </div>
     </div>
   );

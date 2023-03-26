@@ -38,6 +38,8 @@ function App() {
           f: 0,
           h: 0,
           previous: null,
+          isWall: false,
+          isWeighted: false,
         };
 
         newGrid[y].push(node);
@@ -48,7 +50,11 @@ function App() {
   };
 
   const handleMouseUp = (e: React.MouseEvent): void => {
-    if (nodeSelectType === NodeType.Wall && holding) {
+    if (
+      (nodeSelectType === NodeType.Wall ||
+        nodeSelectType === NodeType.Weighted) &&
+      holding
+    ) {
       setHolding(false);
     }
   };

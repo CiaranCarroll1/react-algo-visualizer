@@ -6,6 +6,8 @@ export type GridNode = {
   f: number;
   h: number;
   previous: GridNode | null;
+  isWall: Boolean;
+  isWeighted: Boolean;
 };
 
 export type Result = {
@@ -18,6 +20,7 @@ export enum NodeType {
   Start = 'start',
   End = 'end',
   Wall = 'wall',
+  Weighted = 'weighted',
   Visited = 'visited',
   Path = 'path',
 }

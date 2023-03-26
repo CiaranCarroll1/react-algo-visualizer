@@ -70,10 +70,13 @@ const OptionsBar: React.FC<Props> = ({
             <TbWall className="pr-1" size={30} />
             Wall
           </button>
-          {/* <button className="px-3 flex items-center">
-        <TbWeight className="px-1" size={30} />
-        Weighted
-        </button> */}
+          <button
+            onClick={() => setNodeSelectType(NodeType.Weighted)}
+            className={nodeTypeButtonClasses(NodeType.Weighted)}
+          >
+            <TbWeight className="pr-1" size={30} />
+            Weight
+          </button>
         </div>
 
         {/* Algorithm */}
