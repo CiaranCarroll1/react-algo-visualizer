@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Toolbar from './components/Toolbar';
 import Grid from './components/Grid';
-import OptionsBar from './components/OptionsBar';
 import { GridNode, NodeType, Algorithm, Result } from './types';
 import { dijkstra } from './algorithms/dijkstra';
 
@@ -65,16 +64,16 @@ function App() {
     if (startNode && endNode) {
       const newStart = newGrid[startNode.y][startNode.x];
       newStart.type = NodeType.Start;
-      newStart.g = algorithm === Algorithm.Dijkstra ? Infinity : 0;
+      newStart.g = 0;
       setStartNode(newStart);
 
       const newEnd = newGrid[endNode.y][endNode.x];
       newEnd.type = NodeType.End;
-      newEnd.g = algorithm === Algorithm.Dijkstra ? Infinity : 0;
       setEndNode(newEnd);
     } else {
       const start = newGrid[initialStartPos.y][initialStartPos.x];
       start.type = NodeType.Start;
+      start.g = 0;
       setStartNode(start);
 
       const end = newGrid[initialEndPos.y][initialEndPos.x];
@@ -158,20 +157,21 @@ function App() {
       onMouseUp={handleMouseUp}
       className="w-full h-screen flex flex-col bg-[#0B0B45]"
     >
+      Header
+      <div className="w-full px-2 h-[50px] flex justify-between items-center text-gray-300">
+        <h1 className="select-none text-yellow-500 text-3xl bold">
+          Algo Visualizer
+        </h1>
+      </div>
       {/* Toolbar */}
       <Toolbar
-        handlePlayClick={handlePlayClick}
-        handleResetClick={handleResetClick}
-      />
-
-      {/* Options Panel */}
-      <OptionsBar
         nodeSelectType={nodeSelectType}
         setNodeSelectType={setNodeSelectNodeType}
         algorithm={algorithm}
         setAlgorithm={setAlgorithm}
+        handlePlayClick={handlePlayClick}
+        handleResetClick={handleResetClick}
       />
-
       {/* Grid */}
       <Grid
         nodeSelectType={nodeSelectType}

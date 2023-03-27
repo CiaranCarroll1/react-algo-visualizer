@@ -1,4 +1,4 @@
-import { GridNode, NodeType } from '../types';
+import { GridNode } from '../types';
 
 const getDistance = (nodeA: GridNode, nodeB: GridNode): number => {
   let dx = Math.abs(nodeA.x - nodeB.x);
@@ -45,16 +45,17 @@ export const dijkstra = (
 
   // Loop until the open list is empty
   while (openList.length > 0) {
-    // Find the node with the lowest f cost
-    let currentNode = openList[0];
-
     if (useAstar) {
-      for (let i = 1; i < openList.length; i++) {
-        if (openList[i].f < currentNode.f) {
-          currentNode = openList[i];
-        }
-      }
+      openList.sort((nodeA, nodeB) => {
+        return nodeA.f - nodeB.f;
+      });
+    } else {
+      openList.sort((nodeA, nodeB) => {
+        return nodeA.g - nodeB.g;
+      });
     }
+
+    const currentNode = openList[0];
 
     // Remove the current node from the open list and add it to the closed list
     openList.splice(openList.indexOf(currentNode), 1);
@@ -107,6 +108,5 @@ export const dijkstra = (
     }
   }
 
-  // If we've reached the end of the open list without finding the end node, there is no path
   return null;
 };
