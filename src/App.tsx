@@ -155,7 +155,7 @@ function App() {
   return (
     <div
       onMouseUp={handleMouseUp}
-      className="w-full h-screen flex flex-col bg-[#0B0B45]"
+      className="w-[1536px] h-screen flex flex-col bg-[#0B0B45]"
     >
       {/* Header */}
       <div className="w-full px-2 h-[50px] flex justify-between items-center text-gray-300">
