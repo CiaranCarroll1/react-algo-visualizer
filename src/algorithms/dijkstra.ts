@@ -36,14 +36,11 @@ export const dijkstra = (
   endNode: GridNode,
   useAstar = false
 ) => {
-  // Create an empty open list and a closed list
   let openList: GridNode[] = [];
   let closedList: GridNode[] = [];
 
-  // Add the starting node to the open list
   openList.push(startNode);
 
-  // Loop until the open list is empty
   while (openList.length > 0) {
     if (useAstar) {
       openList.sort((nodeA, nodeB) => {
@@ -57,11 +54,9 @@ export const dijkstra = (
 
     const currentNode = openList[0];
 
-    // Remove the current node from the open list and add it to the closed list
     openList.splice(openList.indexOf(currentNode), 1);
     closedList.push(currentNode);
 
-    // If we have reached the end node, return the path
     if (currentNode.x === endNode.x && currentNode.y === endNode.y) {
       let path = [];
       let temp = currentNode;
@@ -75,30 +70,24 @@ export const dijkstra = (
       };
     }
 
-    // Get the neighbors of the current node
     let neighbors = getNeighbors(currentNode, grid);
 
-    // Loop through each neighbor
     for (let i = 0; i < neighbors.length; i++) {
       let neighbor = neighbors[i];
 
-      // If the neighbor is in the closed list, skip it
       if (closedList.includes(neighbor) || neighbor.isWall) {
         continue;
       }
 
-      // Calculate the new g cost
       const distance = neighbor.isWeighted ? 4 : 1;
       let gScore = currentNode.g + distance;
 
-      // If the neighbor is not in the open list, add it
       if (!openList.includes(neighbor)) {
         openList.push(neighbor);
       } else if (gScore >= neighbor.g) {
         continue;
       }
 
-      // Update the neighbor's g, h, and f scores
       neighbor.g = gScore;
       if (useAstar) {
         neighbor.h = getDistance(neighbor, endNode);

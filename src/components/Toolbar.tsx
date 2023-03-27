@@ -37,6 +37,9 @@ const Toolbar: React.FC<Props> = ({
     }`;
   };
 
+  const actionButtonClasses =
+    'flex items-center px-5 py-1 mx-2 border text-xl text-[#0B0B45] bg-gray-300 hover:bg-yellow-500 border-gray-300 hover:border-yellow-500 rounded';
+
   return (
     <div className="px-2 w-full">
       <div className="flex w-full py-2 justify-between text-gray-300 text-xl border-y-2 border-gray-300">
@@ -88,17 +91,11 @@ const Toolbar: React.FC<Props> = ({
         </div>
 
         <div className="flex">
-          <button
-            onClick={handlePlayClick}
-            className="flex items-center px-5 py-1 border mr-5 text-xl text-[#0B0B45] bg-gray-300 hover:bg-yellow-500 border-gray-300 hover:border-yellow-500 rounded"
-          >
+          <button onClick={handlePlayClick} className={actionButtonClasses}>
             <RxPlay className="pr-1" size={26} />
             Play
           </button>
-          <button
-            onClick={handleResetClick}
-            className="flex items-center px-5 py-1 border text-xl text-[#0B0B45] bg-gray-300 hover:bg-yellow-500 border-gray-300 hover:border-yellow-500 rounded"
-          >
+          <button onClick={handleResetClick} className={actionButtonClasses}>
             <RxReset className="pr-1" size={26} />
             Reset
           </button>

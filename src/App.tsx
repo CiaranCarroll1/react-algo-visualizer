@@ -157,12 +157,13 @@ function App() {
       onMouseUp={handleMouseUp}
       className="w-full h-screen flex flex-col bg-[#0B0B45]"
     >
-      Header
+      {/* Header */}
       <div className="w-full px-2 h-[50px] flex justify-between items-center text-gray-300">
         <h1 className="select-none text-yellow-500 text-3xl bold">
           Algo Visualizer
         </h1>
       </div>
+
       {/* Toolbar */}
       <Toolbar
         nodeSelectType={nodeSelectType}
@@ -172,6 +173,7 @@ function App() {
         handlePlayClick={handlePlayClick}
         handleResetClick={handleResetClick}
       />
+
       {/* Grid */}
       <Grid
         nodeSelectType={nodeSelectType}
