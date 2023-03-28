@@ -26,7 +26,7 @@ export enum NodeType {
 }
 
 export enum Algorithm {
-  Brute = 'brute',
   Dijkstra = 'dijkstra',
   Astar = 'astar',
+  BFS = 'bfs',
 }

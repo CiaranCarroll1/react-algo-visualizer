@@ -26,7 +26,7 @@ const Toolbar: React.FC<Props> = ({
   handleResetClick,
 }: Props) => {
   const nodeTypeButtonClasses = (type: NodeType) => {
-    return `px-3 mx-2 flex items-center hover:bg-yellow-500 rounded ${
+    return `px-3 mx-2 flex items-center hover:bg-yellow-500 rounded disabled:bg-gray-600 disabled:hover:bg-gray-600 ${
       nodeSelectType === type ? 'border border-yellow-500' : ''
     }`;
   };
@@ -42,7 +42,7 @@ const Toolbar: React.FC<Props> = ({
 
   return (
     <div className="px-2 w-full">
-      <div className="flex w-full py-2 justify-between text-gray-300 text-xl border-y-2 border-gray-300">
+      <div className="flex w-full py-2 justify-between text-gray-300 text-xl border-y-2 border-gray-300 disabled:hover:bg-[#0B0B45]">
         {/* Node type */}
         <div className="flex">
           <button
@@ -69,6 +69,7 @@ const Toolbar: React.FC<Props> = ({
           <button
             onClick={() => setNodeSelectType(NodeType.Weighted)}
             className={nodeTypeButtonClasses(NodeType.Weighted)}
+            disabled={algorithm === Algorithm.BFS}
           >
             <TbWeight className="pr-1" size={30} />
             Weight
@@ -87,6 +88,17 @@ const Toolbar: React.FC<Props> = ({
             className={algorithmButtonClasses(Algorithm.Astar)}
           >
             A-star
+          </button>
+          <button
+            onClick={() => {
+              setAlgorithm(Algorithm.BFS);
+              if (nodeSelectType === NodeType.Weighted) {
+                setNodeSelectType(NodeType.Start);
+              }
+            }}
+            className={algorithmButtonClasses(Algorithm.BFS)}
+          >
+            Breadth-first
           </button>
         </div>
 

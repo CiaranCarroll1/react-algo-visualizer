@@ -1,4 +1,5 @@
-import { GridNode } from '../types';
+import { GridNode, Result } from '../types';
+import { getNeighbors, getPathFromNode } from './helpers';
 
 const getDistance = (nodeA: GridNode, nodeB: GridNode): number => {
   let dx = Math.abs(nodeA.x - nodeB.x);
@@ -6,43 +7,19 @@ const getDistance = (nodeA: GridNode, nodeB: GridNode): number => {
   return Math.sqrt(dx * dx + dy * dy);
 };
 
-export const getNeighbors = (
-  node: GridNode,
-  grid: GridNode[][]
-): GridNode[] => {
-  let neighbors = [];
-  let x = node.x;
-  let y = node.y;
-
-  if (x > 0) {
-    neighbors.push(grid[y][x - 1]);
-  }
-  if (x < grid[0].length - 1) {
-    neighbors.push(grid[y][x + 1]);
-  }
-  if (y > 0) {
-    neighbors.push(grid[y - 1][x]);
-  }
-  if (y < grid.length - 1) {
-    neighbors.push(grid[y + 1][x]);
-  }
-
-  return neighbors;
-};
-
 export const dijkstra = (
   grid: GridNode[][],
   startNode: GridNode,
   endNode: GridNode,
-  useAstar = false
-) => {
+  isAstar = false
+): Result | null => {
   let openList: GridNode[] = [];
   let closedList: GridNode[] = [];
 
   openList.push(startNode);
 
   while (openList.length > 0) {
-    if (useAstar) {
+    if (isAstar) {
       openList.sort((nodeA, nodeB) => {
         return nodeA.f - nodeB.f;
       });
@@ -57,15 +34,9 @@ export const dijkstra = (
     openList.splice(openList.indexOf(currentNode), 1);
     closedList.push(currentNode);
 
-    if (currentNode.x === endNode.x && currentNode.y === endNode.y) {
-      let path = [];
-      let temp = currentNode;
-      while (temp.previous) {
-        path.push(temp);
-        temp = temp.previous;
-      }
+    if (currentNode === endNode) {
       return {
-        path: path.reverse(),
+        path: getPathFromNode(currentNode),
         visited: closedList,
       };
     }
@@ -89,7 +60,7 @@ export const dijkstra = (
       }
 
       neighbor.g = gScore;
-      if (useAstar) {
+      if (isAstar) {
         neighbor.h = getDistance(neighbor, endNode);
         neighbor.f = neighbor.g + neighbor.h;
       }

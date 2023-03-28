@@ -4,6 +4,7 @@ import Toolbar from './components/Toolbar';
 import Grid from './components/Grid';
 import { GridNode, NodeType, Algorithm, Result } from './types';
 import { dijkstra } from './algorithms/dijkstra';
+import { bfs } from './algorithms/bfs';
 
 function App() {
   const [startNode, setStartNode] = useState<GridNode>();
@@ -127,12 +128,15 @@ function App() {
   };
 
   const play = (): void => {
-    const result = dijkstra(
-      grid,
-      startNode as GridNode,
-      endNode as GridNode,
-      algorithm === Algorithm.Astar
-    );
+    const result =
+      algorithm === Algorithm.BFS
+        ? bfs(grid, startNode as GridNode, endNode as GridNode)
+        : dijkstra(
+            grid,
+            startNode as GridNode,
+            endNode as GridNode,
+            algorithm === Algorithm.Astar
+          );
     if (result === null) {
       alert('Not possible');
     } else {
