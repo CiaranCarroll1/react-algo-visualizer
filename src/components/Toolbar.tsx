@@ -1,116 +1,80 @@
-import React from 'react';
-import { NodeType, Algorithm } from '../types';
-import {
-  TbArrowBigRightLines,
-  TbTarget,
-  TbWall,
-  TbWeight,
-} from 'react-icons/tb';
-import { RxPlay, RxReset } from 'react-icons/rx';
+import React, { ReactNode } from 'react';
+
+export type ToolbarButtonProps = {
+  clickHandler: () => void;
+  classes: string;
+  children: ReactNode;
+};
 
 type Props = {
-  nodeSelectType: NodeType;
-  setNodeSelectType: React.Dispatch<React.SetStateAction<NodeType>>;
-  algorithm: Algorithm;
-  setAlgorithm: React.Dispatch<React.SetStateAction<Algorithm>>;
-  handlePlayClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  handleResetClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  buttonGroup1?: ToolbarButtonProps[];
+  buttonGroup2?: ToolbarButtonProps[];
+  actionButtonGroup?: ToolbarButtonProps[];
 };
 
 const Toolbar: React.FC<Props> = ({
-  nodeSelectType,
-  setNodeSelectType,
-  algorithm,
-  setAlgorithm,
-  handlePlayClick,
-  handleResetClick,
+  buttonGroup1,
+  buttonGroup2,
+  actionButtonGroup,
 }: Props) => {
-  const nodeTypeButtonClasses = (type: NodeType) => {
-    return `px-3 mx-2 flex items-center hover:bg-yellow-500 rounded disabled:bg-gray-600 disabled:hover:bg-gray-600 ${
-      nodeSelectType === type ? 'border border-yellow-500' : ''
-    }`;
+  const showSeperator = (): Boolean => {
+    if (
+      buttonGroup1 &&
+      buttonGroup2 &&
+      buttonGroup1.length > 0 &&
+      buttonGroup2.length > 0
+    ) {
+      return true;
+    }
+    return false;
   };
-
-  const algorithmButtonClasses = (algo: Algorithm) => {
-    return `px-3 mx-2 flex items-center hover:bg-yellow-500 rounded ${
-      algorithm === algo ? 'border border-yellow-500' : ''
-    }`;
-  };
-
-  const actionButtonClasses =
-    'flex items-center px-5 py-1 mx-2 border text-xl text-[#0B0B45] bg-gray-300 hover:bg-yellow-500 border-gray-300 hover:border-yellow-500 rounded';
 
   return (
     <div className="px-2 w-full">
-      <div className="flex w-full py-2 justify-between text-gray-300 text-xl border-y-2 border-gray-300 disabled:hover:bg-[#0B0B45]">
-        {/* Node type */}
+      <div className="flex w-full py-2 justify-between text-gray-300 text-xl border-y-2 border-gray-300">
+        {/* Group 1 */}
         <div className="flex">
-          <button
-            onClick={() => setNodeSelectType(NodeType.Start)}
-            className={nodeTypeButtonClasses(NodeType.Start)}
-          >
-            <TbArrowBigRightLines className="pr-1" size={30} />
-            Start
-          </button>
-          <button
-            onClick={() => setNodeSelectType(NodeType.End)}
-            className={nodeTypeButtonClasses(NodeType.End)}
-          >
-            <TbTarget className="pr-1" size={30} />
-            Target
-          </button>
-          <button
-            onClick={() => setNodeSelectType(NodeType.Wall)}
-            className={nodeTypeButtonClasses(NodeType.Wall)}
-          >
-            <TbWall className="pr-1" size={30} />
-            Wall
-          </button>
-          <button
-            onClick={() => setNodeSelectType(NodeType.Weighted)}
-            className={nodeTypeButtonClasses(NodeType.Weighted)}
-            disabled={algorithm === Algorithm.BFS}
-          >
-            <TbWeight className="pr-1" size={30} />
-            Weight
-          </button>
+          {buttonGroup1?.map((buttonProps, index) => {
+            return (
+              <button
+                key={index}
+                onClick={buttonProps.clickHandler}
+                className={buttonProps.classes}
+              >
+                {buttonProps.children}
+              </button>
+            );
+          })}
 
-          <div className="border mx-4"></div>
+          {showSeperator() && <div className="border mx-4"></div>}
 
-          <button
-            onClick={() => setAlgorithm(Algorithm.Dijkstra)}
-            className={algorithmButtonClasses(Algorithm.Dijkstra)}
-          >
-            Dijkstra
-          </button>
-          <button
-            onClick={() => setAlgorithm(Algorithm.Astar)}
-            className={algorithmButtonClasses(Algorithm.Astar)}
-          >
-            A-star
-          </button>
-          <button
-            onClick={() => {
-              setAlgorithm(Algorithm.BFS);
-              if (nodeSelectType === NodeType.Weighted) {
-                setNodeSelectType(NodeType.Start);
-              }
-            }}
-            className={algorithmButtonClasses(Algorithm.BFS)}
-          >
-            Breadth-first
-          </button>
+          {/* Group 2 */}
+          {buttonGroup2?.map((buttonProps, index) => {
+            return (
+              <button
+                key={index}
+                onClick={buttonProps.clickHandler}
+                className={buttonProps.classes}
+              >
+                {buttonProps.children}
+              </button>
+            );
+          })}
         </div>
 
+        {/* Action group */}
         <div className="flex">
-          <button onClick={handlePlayClick} className={actionButtonClasses}>
-            <RxPlay className="pr-1" size={26} />
-            Play
-          </button>
-          <button onClick={handleResetClick} className={actionButtonClasses}>
-            <RxReset className="pr-1" size={26} />
-            Reset
-          </button>
+          {actionButtonGroup?.map((buttonProps, index) => {
+            return (
+              <button
+                key={index}
+                onClick={buttonProps.clickHandler}
+                className={buttonProps.classes}
+              >
+                {buttonProps.children}
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>

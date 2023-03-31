@@ -1,4 +1,4 @@
-import { GridNode, Result } from '../types';
+import { GridNode, Result } from '../../types';
 import { getNeighbors, getPathFromNode } from './helpers';
 
 const getDistance = (nodeA: GridNode, nodeB: GridNode): number => {

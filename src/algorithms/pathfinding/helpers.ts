@@ -1,4 +1,4 @@
-import { GridNode } from '../types';
+import { GridNode } from './../../types';
 
 export const getNeighbors = (
   node: GridNode,

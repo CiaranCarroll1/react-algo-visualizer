@@ -1,3 +1,13 @@
+export enum NodeType {
+  Default = 'default',
+  Start = 'start',
+  End = 'end',
+  Wall = 'wall',
+  Weighted = 'weighted',
+  Visited = 'visited',
+  Path = 'path',
+}
+
 export type GridNode = {
   type: NodeType;
   x: number;
@@ -15,18 +25,21 @@ export type Result = {
   visited: GridNode[];
 };
 
-export enum NodeType {
-  Default = 'default',
-  Start = 'start',
-  End = 'end',
-  Wall = 'wall',
-  Weighted = 'weighted',
-  Visited = 'visited',
-  Path = 'path',
-}
-
 export enum Algorithm {
   Dijkstra = 'dijkstra',
   Astar = 'astar',
   BFS = 'bfs',
+  Linear = 'linear',
+  Binary = 'binary',
+}
+
+export type NumberNode = {
+  num: number;
+  state: SearchState;
+};
+
+export enum SearchState {
+  None = 'none',
+  Current = 'current',
+  Found = 'found',
 }

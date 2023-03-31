@@ -76,23 +76,26 @@ const Node: React.FC<Props> = ({
     }
   };
 
-  let bgColor = 'bg-white';
-  if (node.type === NodeType.Start) {
-    bgColor = 'bg-green-500';
-  } else if (node.type === NodeType.End) {
-    bgColor = 'bg-red-500';
-  } else if (node.type === NodeType.Visited) {
-    bgColor = 'bg-blue-500';
-  } else if (node.type === NodeType.Path) {
-    bgColor = 'bg-yellow-500';
-  }
+  const getBackgroundColor = () => {
+    if (node.type === NodeType.Start) {
+      return 'bg-green-500';
+    } else if (node.type === NodeType.End) {
+      return 'bg-red-500';
+    } else if (node.type === NodeType.Visited) {
+      return 'bg-blue-500';
+    } else if (node.type === NodeType.Path) {
+      return 'bg-yellow-500';
+    } else {
+      return 'bg-white';
+    }
+  };
 
   return (
     <div className="p-[2px]">
       <div
         onMouseDown={handleMouseDown}
         onMouseOver={handleMouseOver}
-        className={`w-6 h-6 ${bgColor} cursor-pointer text-center`}
+        className={`w-6 h-6 ${getBackgroundColor()} cursor-pointer text-center`}
       >
         {node.type === NodeType.Start && <TbArrowBigRightLines size={24} />}
         {node.type === NodeType.End && <TbTarget size={24} />}

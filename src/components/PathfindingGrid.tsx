@@ -1,10 +1,9 @@
 import React from 'react';
 import Node from './Node';
-import { GridNode, NodeType, Algorithm } from '../types';
+import { GridNode, NodeType } from '../types';
 
 type Props = {
   nodeSelectType: NodeType;
-  algorithm: Algorithm;
   grid: GridNode[][];
   setGrid: React.Dispatch<React.SetStateAction<GridNode[][]>>;
   startNode: GridNode;
@@ -17,7 +16,6 @@ type Props = {
 
 const Grid: React.FC<Props> = ({
   nodeSelectType,
-  algorithm,
   grid,
   setGrid,
   startNode,
