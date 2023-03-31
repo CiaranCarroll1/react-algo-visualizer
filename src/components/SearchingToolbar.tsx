@@ -23,25 +23,12 @@ const SearchingToolbar: React.FC<Props> = ({
   handlePlayClick,
   handleResetClick,
 }: Props) => {
-  const lowNumIndex = Math.floor(20 / 4);
-  const midNumIndex = Math.floor(20 / 2);
-  const highNumIndex = 19 - Math.floor(20 / 4);
-
   const buttonGroup1: ToolbarButtonProps[] = [
     {
-      clickHandler: () => setSearchNumber(numberNodes[lowNumIndex].num),
-      classes: buttonClasses(searchNumber, numberNodes[lowNumIndex].num),
-      children: <>Low</>,
-    },
-    {
-      clickHandler: () => setSearchNumber(numberNodes[midNumIndex].num),
-      classes: buttonClasses(searchNumber, numberNodes[midNumIndex].num),
-      children: <>Mid</>,
-    },
-    {
-      clickHandler: () => setSearchNumber(numberNodes[highNumIndex].num),
-      classes: buttonClasses(searchNumber, numberNodes[highNumIndex].num),
-      children: <>High</>,
+      clickHandler: () =>
+        setSearchNumber(numberNodes[Math.floor(Math.random() * 54)].num),
+      classes: buttonClasses(1, 0),
+      children: <>Randomize</>,
     },
   ];
   const buttonGroup2: ToolbarButtonProps[] = [
