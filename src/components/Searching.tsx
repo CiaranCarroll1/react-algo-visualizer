@@ -61,36 +61,7 @@ const Searching = () => {
       }, 200 * i);
   };
 
-  const binarySearch = (): void => {
-    for (
-      let i = 0;
-      i < numberNodes.length / 2 &&
-      numberNodes[i].num <= searchNumber &&
-      numberNodes[numberNodes.length - (i + 1)].num >= searchNumber;
-      i++
-    )
-      setTimeout(() => {
-        const newNodes = [...numberNodes];
-        if (i > 0) {
-          newNodes[i - 1].state = SearchState.None;
-          newNodes[newNodes.length - i].state = SearchState.None;
-        }
-
-        const lowNode = newNodes[i];
-        const highNode = newNodes[newNodes.length - (i + 1)];
-
-        if (lowNode.num === searchNumber) {
-          lowNode.state = SearchState.Found;
-        } else if (highNode.num === searchNumber) {
-          highNode.state = SearchState.Found;
-        } else {
-          lowNode.state = SearchState.Current;
-          highNode.state = SearchState.Current;
-        }
-
-        setNumberNodes(newNodes);
-      }, 200 * i);
-  };
+  const binarySearch = (): void => {};
 
   const getBorderColor = (node: NumberNode) => {
     if (node.state === SearchState.Current) {
@@ -105,6 +76,9 @@ const Searching = () => {
   return (
     <div>
       <SearchingToolbar
+        numberNodes={numberNodes}
+        searchNumber={searchNumber}
+        setSearchNumber={setSearchNumber}
         algorithm={algorithm}
         setAlgorithm={setAlgorithm}
         handlePlayClick={play}
@@ -116,9 +90,9 @@ const Searching = () => {
           return (
             <div
               key={index}
-              className={`w-[120px] h-[120px] flex justify-center items-center text-2xl border text-center ${getBorderColor(
-                node
-              )}`}
+              className={`w-[120px] h-[120px] flex justify-center items-center text-2xl border-4 ${
+                node.num === searchNumber ? 'border-red-500' : ''
+              } text-center ${getBorderColor(node)}`}
             >
               {node.num}
             </div>

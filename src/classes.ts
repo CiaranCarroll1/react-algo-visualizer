@@ -1,8 +1,8 @@
 import { NodeType, Algorithm } from './types';
 
 export const buttonClasses = (
-  type1: NodeType | Algorithm,
-  type2: NodeType | Algorithm
+  type1: NodeType | Algorithm | number,
+  type2: NodeType | Algorithm | number
 ) => {
   return `px-3 mx-2 flex items-center hover:bg-yellow-500 rounded disabled:bg-gray-600 disabled:hover:bg-gray-600 ${
     type1 === type2 ? 'border border-yellow-500' : ''
