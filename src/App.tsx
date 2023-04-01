@@ -1,33 +1,15 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Pathfinding from './components/Pathfinding';
 import Searching from './components/Searching';
+import Navbar from './components/Navbar';
 
 const App: React.FC = () => {
   return (
     <div className="w-[1536px] h-screen flex flex-col bg-[#0B0B45]">
       <BrowserRouter>
-        {/* Header */}
-        <div className="w-full px-2 h-[50px] flex justify-between items-center text-gray-300">
-          <h1 className="select-none text-yellow-500 text-3xl bold">
-            Algo Visualizer
-          </h1>
-          <div className="flex">
-            <Link
-              className="px-3 text-xl hover:text-yellow-500 cursor-pointer"
-              to="/pathfinding"
-            >
-              Pathfinding
-            </Link>
-            <Link
-              className="px-3 text-xl hover:text-yellow-500 cursor-pointer"
-              to="/searching"
-            >
-              Searching
-            </Link>
-          </div>
-        </div>
+        <Navbar />
 
         <Routes>
           <Route path="/" element={<Navigate to="/pathfinding" />} />
